@@ -78,6 +78,18 @@ chmod +x /etc/netplug.d/netplug
 echo "NOZEROCONF=yes" >> /etc/sysconfig/network
 ```
 
+### 1.9. Cấu hình card mạng tự động active khi hệ thống boot-up
+
+`vim /etc/network/interfaces`
+
+```
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet dhcp
+```
+
+
 ###### Cleaning and Poweroff
 ```
 yum clean all
@@ -92,28 +104,23 @@ apt-get install libguestfs-tools -y
 
 ### 2.2. Xử dụng lệnh `virt-sysprep` để xóa toàn bộ các thông tin máy ảo:
 ```
-virt-sysprep -a CentOS65.img
+virt-sysprep -a U.1404.img
 ```
 
 ### 2.3. Giảm kích thước image
 ```
-sudo virt-sparsify --compress CentOS65.img CentOS65_shrink.img
+virt-sparsify --compress U.1404.img U.1404.shrink.img
 ```
 
 ### 2.4. Upload image lên glance
 ```
-openstack image create CentOS_6.5 --disk-format qcow2 --container-format bare --public < CentOS65_shrink.img
+openstack image create U14.04_v4 --disk-format qcow2 --container-format bare --public < U.1404.shrink.img
 ```
 
 ### 2.5. Kiểm tra việc upload image đã thành công hay chưa
 
-![upload image](/images/cent65_1.jpg)
+![upload image](/images/u1404/u1404_1.jpg)
 
-### 2.6. Chỉnh sửa metadata của image upload
-![view metadata](/images/cent65_2.jpg)
-
-Thêm 2 metadata là 'hw_qemu_guest_agent' và 'os_admin_user', set giá trị là True, sau đó save lại
-![update metadata](/images/cent65_3.jpg)
 
 ### 2.7. Image đã sẵn sàng để launch máy ảo.
 
@@ -131,5 +138,6 @@ Sau khi chạy Script, VM sẽ khởi động lại, quá trình định dạng 
 
 ### 3.3. Kiểm tra lại kích thước LV:
 ![Kiểm tra LV](http://image.prntscr.com/image/c3402824909a41a29a5b4e74e8f367eb.jpg)
+
 
 ## Done
