@@ -10,7 +10,7 @@
 ## 1. Trên Host KVM
 ### 1.1. Tắt máy ảo
 
-### 1.2. Chỉnh sửa file .xml của máy ảo, bổ sung thêm channel trong <devices> (để máy host giao tiếp với máy ảo sử dụng qemu-guest-agent), sau đó save lại
+### 1.2. Chỉnh sửa file .xml của máy ảo, bổ sung thêm channel trong `<devices>` (để máy host giao tiếp với máy ảo sử dụng qemu-guest-agent), sau đó save lại
 `virsh edit U1404`
 
 với `U1404` là tên máy ảo
@@ -24,7 +24,13 @@ với `U1404` là tên máy ảo
 </devices>
 ```
 
-### 1.3. Dùng `vim` để sửa file `/etc/apparmor.d/abstractions/libvirt-qemu`
+### 1.3. Tạo thêm thư mục cho channel vừa tạo và phân quyền cho thư mục đó
+```
+mkdir -p /var/lib/libvirt/qemu/channel/target
+chown -R libvirt-qemu:kvm /var/lib/libvirt/qemu/channel
+```
+
+### 1.4. Dùng `vim` để sửa file `/etc/apparmor.d/abstractions/libvirt-qemu`
 `vim /etc/apparmor.d/abstractions/libvirt-qemu`
 
 Bổ sung thêm cấu hình sau vào dòng cuối cùng
@@ -39,7 +45,7 @@ service libvirt-bin restart
 service apparmor reload
 ```
 
-### 1.4. Bật máy ảo
+### 1.5. Bật máy ảo
 
 ## 2. Thực hiện trên máy ảo
 ### 2.1.Để máy ảo khi boot sẽ tự giãn phân vùng theo dung lượng mới, ta cài các gói sau:
