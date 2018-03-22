@@ -76,6 +76,41 @@ chmod +x /etc/netplug.d/netplug
 echo "NOZEROCONF=yes" >> /etc/sysconfig/network
 ```
 
+### 1.9. Disable việc sinh ra file 70-persistent-net.rules (để mỗi khi clone máy ảo sẽ không bị thay đổi label card mạng)
+```
+echo "#" > /lib/udev/rules.d/75-persistent-net-generator.rules
+```
+
+### 1.10. Cài đặt qemu-guest-agent
+#### *Chú ý: qemu-guest-agent là một daemon chạy trong máy ảo, giúp quản lý và hỗ trợ máy ảo khi cần (có thể cân nhắc việc cài thành phần này lên máy ảo)*
+```
+yum install qemu-guest-agent -y
+```
+#### Kiểm tra phiên bản `qemu-ga` bằng lệnh:
+```
+qemu-ga --version
+```
+
+Kết quả:
+```
+qemu-guest-agent-0.12.1.2-2.491.el6_8.6.x86_64
+```
+
+Khởi chạy qemu-guest-agent
+```
+service qemu-ga start
+```
+
+Khởi chạy qemu-guest-agent khi boot máy
+```
+chkconfig qemu-ga on
+```
+
+#### Disable SELinux
+Sửa file /etc/selinux/config
+```
+SELINUX=disabled
+```
 
 ###### Cleaning and Poweroff
 ```
