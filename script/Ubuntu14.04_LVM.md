@@ -26,7 +26,7 @@ ifup eth0
 
 ### 1.2. Đặt script sau tại `/root/partresize.sh`, chạy sau khi boot máy ảo để phân vùng lại LVM:
 ```
-wget https://raw.githubusercontent.com/longsube/Image_Create/master/OpenStack%20Images/partresize.sh
+wget https://raw.githubusercontent.com/hocchudong/Image_Create/master/script/partresize.sh
 ```
 ###### Cấu hình cloud-init, sửa file `/etc/cloud/cloud.cfg` như sau
 vim /etc/cloud/cloud.cfg
